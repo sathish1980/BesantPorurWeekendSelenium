@@ -8,7 +8,7 @@
           <include name="LaunchURL"/>
           <include name="LaunchDriver"/>
           <include name="closeBrowser"/>
-          <include name="validSearch"/>
+          <include name="SameCityValidation"/>
         </methods>
       </class> <!-- Testcase.Makemytrip -->
     </classes>

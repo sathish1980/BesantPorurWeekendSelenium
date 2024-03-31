@@ -6,6 +6,8 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -15,10 +17,22 @@ public class SearchPage extends WebDriverElement{
 
 
 	WebDriver driver;
+	@FindBy (className="close")
+	WebElement closeButton;
+	@FindBy (xpath="//*[@for='fromCity']")
+	WebElement FromCity;
+	@FindBy (xpath="//*[@for='toCity']")
+	WebElement ToCity;
+	@FindBy (xpath="//*[text()='Search']")
+	WebElement Search;
+	@FindBy (xpath="//*[@data-cy='sameCityError']")
+	WebElement SameCityError;
+
 	public String expectedsamecityError = "From & To airports cannot be the same";
 	public SearchPage(WebDriver driver)
 	{
 		this.driver=driver;
+		PageFactory.initElements(driver, this);
 	}
 	public void ClickOnAdd()
 	{
@@ -30,7 +44,8 @@ public class SearchPage extends WebDriverElement{
 			List<WebElement> elementexist = driver.findElements(By.className("close"));
 			if(elementexist.size()>0)
 			{
-				driver.findElement(By.className("close")).click();
+				//driver.findElement(By.className("close")).click();
+				closeButton.click();
 			}
 			driver.switchTo().defaultContent();
 		}catch(Exception e)
@@ -42,12 +57,20 @@ public class SearchPage extends WebDriverElement{
 
 	public void ClickOnFrom()
 	{
-		ClickOnButton(driver.findElement(By.xpath("//*[@for='fromCity']")));
+		//WaitforelementTobeClickable(driver, driver.findElement(By.xpath("//*[@for='fromCity']")));
+		//ClickOnButton(driver.findElement(By.xpath("//*[@for='fromCity']")));
+		WaitforelementTobeClickable(driver,FromCity);
+		ClickOnButton(FromCity);
+
 	}
 
 	public void ClickOnTo()
 	{
-		ClickOnButton(driver.findElement(By.xpath("//*[@for='toCity']")));
+		//WaitforelementTobeClickable(driver, driver.findElement(By.xpath("//*[@for='toCity']")));
+		//ClickOnButton(driver.findElement(By.xpath("//*[@for='toCity']")));
+		WaitforelementTobeClickable(driver,ToCity);
+		ClickOnButton(ToCity);
+
 	}
 
 	public void SelectValueFromList(String expectedText)
@@ -65,7 +88,7 @@ public class SearchPage extends WebDriverElement{
 	}
 	public void SelectDateFromCalender(String expectedDate)
 	{
-		String calenderWeekPath ="(//*[@class='DayPicker-Month'])[1]//*[@class='DayPicker-Week']";
+		String calenderWeekPath ="(//*[@class='DayPicker-Month'])[2]//*[@class='DayPicker-Week']";
 		List<WebElement> totalWeeks = driver.findElements(By.xpath(calenderWeekPath));
 		for(int i=1;i<=totalWeeks.size();i++)
 		{
@@ -78,7 +101,7 @@ public class SearchPage extends WebDriverElement{
 					String actualDate = getTextFromElement(driver.findElement(By.xpath(calenderWeekPath+"["+i+"]//*[starts-with(@class,'DayPicker-Day')]["+j+"]//p[1]")));
 					if(actualDate.equalsIgnoreCase(expectedDate))
 					{
-						ClickOnButton(driver.findElement(By.xpath("(//*[@class='DayPicker-Month'])[1]//*[@class='DayPicker-Week']["+i+"]//*[starts-with(@class,'DayPicker-Day')]["+j+"]")));
+						ClickOnButton(driver.findElement(By.xpath(calenderWeekPath+"["+i+"]//*[starts-with(@class,'DayPicker-Day')]["+j+"]")));
 						break;
 					}
 				}
@@ -88,11 +111,15 @@ public class SearchPage extends WebDriverElement{
 
 	public void ClickOnSearch()
 	{
-		ClickOnButton(driver.findElement(By.xpath("//*[text()='Search']")));
+		//ClickOnButton(driver.findElement(By.xpath("//*[text()='Search']")));
+
+		ClickOnButton(Search);
+
 	}
 
 	public String GetSameCityError()
 	{
-		return getTextFromElement(driver.findElement(By.xpath("//*[@data-cy='sameCityError']")));
+		//return getTextFromElement(driver.findElement(By.xpath("//*[@data-cy='sameCityError']")));
+		return getTextFromElement(SameCityError);
 	}
 }
