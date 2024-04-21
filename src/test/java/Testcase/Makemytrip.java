@@ -30,7 +30,7 @@ public class Makemytrip extends BrowserLaunch{
 		String URL =ReadProperty.GetPropertyData().getProperty("url");
 		driver.get(URL);
 		SearchPage sp = new SearchPage(driver);
-		//sp.ClickOnAdd();
+		sp.ClickOnAdd();
 	}
 	@Test(priority=0,dataProvider="validSearchTestData",dataProviderClass=MakeMyTripDataProvider.class)
 	public void validSearch(String from, String to,String date) throws InterruptedException, IOException
